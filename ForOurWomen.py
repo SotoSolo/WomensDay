@@ -1,38 +1,32 @@
 import numpy as np
-import pandas as pd
-import psycopg2 as pg
-import pandas.io.sql as psql
-from configparser import ConfigParser
-import time
+import matplotlib
+matplotlib.use('TkAgg')  # Set the backend to TkAgg
+import matplotlib.pyplot as plt
 
-# View the all columns of a data frame at the console
-pd.set_option('display.width', None)
-pd.set_option('display.max_columns', None)
 
-# Read the config file
-config_object = ConfigParser()
-config_object.read("db_config.ini")
+encoded_message = [89, 111, 117, 114, 32, 87, 105,
+                   115, 100, 111, 109, 44, 32, 83,
+                   116, 114, 101, 110, 103, 116, 104,
+                   44, 32, 97, 110, 100, 32, 67, 111,
+                   109, 112, 97, 115, 115, 105, 111, 110,
+                   32, 73, 110, 115, 112, 105, 114, 101, 32,
+                   85, 115, 32, 65, 108, 108]
 
-# GreenPlum schema
-gplum = config_object['GREENPLUM']
 
-# %% Establish db connection
-user = gplum['user']
-password = gplum['password']
-host = gplum['host']
-dbname = gplum['dbname']
-port = gplum['port']
+def decode_message(encoded_list):
+    return ''.join([chr(c) for c in encoded_list])
 
-# Start time
-start_query = time.time()
 
-with pg.connect("host='{}' port={} dbname='{}' user={} password={}".format(host, port, dbname, user, password),
-                options='-c statement_timeout=0') as conn:
-    df1 = psql.read_sql(f''' 
-        
-                ''', conn)
-end_query = time.time()
+decoded_message = decode_message(encoded_message)
 
-total = np.round((end_query - start_query), 3)
+print("In honor of Women's Day, a special analysis reveals:")
+print(decoded_message)
 
-print('\n Total Query execution: ' + str(total) + ' seconds')
+t = np.linspace(0, 2 * np.pi, 100)
+x = 16 * np.sin(t)**3
+y = 13 * np.cos(t) - 5 * np.cos(2*t) - 2 * np.cos(3*t) - np.cos(4*t)
+
+plt.figure(figsize=(8, 7))
+plt.plot(x, y, color='red')
+plt.axis('off')
+plt.show()
