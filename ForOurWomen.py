@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib
-matplotlib.use('TkAgg')  # Set the backend to TkAgg
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 
